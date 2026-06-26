@@ -1,0 +1,46 @@
+# urirun-uinput
+
+The **Linux uinput keyboard/mouse input surface primitive** for urirun, extracted from
+`urirun.connectors.inputs.uinput` as a standalone, dependency-free package.
+
+It synthesizes real keyboard and pointer events by writing to `/dev/uinput` via ioctls — the
+input half of a desktop surface (the capture half is the KVM connector / mutter backend). Pure
+stdlib (`fcntl`, `os`, `struct`, `time`) — **no `urirun` dependency** — so any connector can adopt
+it without pulling in the backend.
+
+## Why it's its own package
+
+`extraction_audit.py --preset E` reports the connectors toolkit (which this belongs to) GREEN, and
+uinput itself pulls only stdlib. It is consumed by URI, swappable, and reusable across connectors —
+the same lift case as `urirun-cdp`. The KVM connector injects its own resolvers and adopts it.
+
+## Install
+
+```bash
+pip install -e .          # editable, from this repo
+```
+
+## Back-compat
+
+The old import path still works via a re-export shim in the urirun package:
+
+```python
+from urirun.connectors.inputs import uinput   # → urirun_uinput.uinput (sys.modules shim)
+```
+
+So existing code and the `test_kernel_adoption` contract test (which guards the symbols the KVM
+connector relies on) keep working unchanged. That contract test skips gracefully when this package
+isn't installed, matching how the connector packages are tested in their own CI rather than urirun's.
+
+## Tests
+
+```bash
+PYTHONPATH=../urirun/adapters/python python -m pytest tests/ -q
+```
+
+The surface's own tests live here (`tests/test_uinput.py`); they exercise the event-encoding
+primitives without a real `/dev/uinput` device.
+
+## License
+
+Apache-2.0 — see [LICENSE](LICENSE).

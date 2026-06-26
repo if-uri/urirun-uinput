@@ -1,0 +1,10 @@
+LICENSE
+README.md
+pyproject.toml
+src/urirun_uinput/__init__.py
+src/urirun_uinput/uinput.py
+src/urirun_uinput.egg-info/PKG-INFO
+src/urirun_uinput.egg-info/SOURCES.txt
+src/urirun_uinput.egg-info/dependency_links.txt
+src/urirun_uinput.egg-info/top_level.txt
+tests/test_uinput.py
