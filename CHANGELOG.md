@@ -1,5 +1,17 @@
 # Changelog
 
+## [Unreleased]
+
+## [0.1.1] - 2026-07-05
+
+### Docs
+- Update README.md
+
+### Other
+- Update src/urirun_uinput.egg-info/PKG-INFO
+- Update uv.lock
+
+
 All notable changes to `urirun-uinput` are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/).
 
